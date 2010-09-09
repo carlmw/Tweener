@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="../tweener.js"></script>
+</head>
+<body>
+	<canvas id="cvs" width="400" height="400" style="border:2px solid black"></canvas>
+	<script>
+	
+	(function(){
+		var cvs = new Tweener(document.getElementById('cvs'), 400, 400);
+		cvs.ctx.fillStyle = '#666';
+		cvs.ctx.lineWidth = '2';
+		cvs.frame('square', {
+			'rectangle': ['fillRect', [0, 0, 20, 20]],
+			'rectangle2': ['fillRect', [380, 380, 20, 20]],
+			'rectangle3': ['fillRect', [380, 0, 20, 20]],
+			'rectangle4': ['fillRect', [0, 380, 20, 20]]
+		});
+		cvs.frame('square2', {
+			'rectangle': ['fillRect', [380, 380, 20, 20]],
+			'rectangle2': ['fillRect', [0, 0, 20, 20]],
+			'rectangle3': ['fillRect', [0, 380, 20, 20]],
+			'rectangle4': ['fillRect', [380, 0, 20, 20]]
+		});
+		cvs.frame('square3', {
+			'rectangle': ['fillRect', [220, 220, 20, 20]],
+			'rectangle2': ['fillRect', [180, 180, 20, 20]],
+			'rectangle3': ['fillRect', [180, 220, 20, 20]],
+			'rectangle4': ['fillRect', [220, 180, 20, 20]]
+		});
+		cvs.draw('square');
+		
+		var easingFunctions = ['<','>','<>','backIn','backOut', 'elastic', 'bounce'],
+			l = easingFunctions.length
+			bounce = function(){
+				var fire = function(){
+					cvs.tween((cvs.current == 'square')?'square2':(cvs.current == 'square2')?'square3':'square', 6000, bounce, easingFunctions[Math.floor(Math.random()*l)]);
+				};
+				if(cvs.current == 'square3'){
+					setTimeout(fire, 1000);
+				}else{
+					fire();
+				}
+			};
+		bounce();
+	})();
+	
+	</script>
+</body>
+</html>
